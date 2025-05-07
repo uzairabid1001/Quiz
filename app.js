@@ -1,3 +1,28 @@
+// import { initializeApp } from "firebase/app";
+// import {  ref, push } from "firebase/database";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAFRli5N4imah4okM7kmUzBwRfFVxrT9gQ",
+  authDomain: "quiz-app-536be.firebaseapp.com",
+  databaseURL: "https://quiz-app-536be-default-rtdb.firebaseio.com",
+  projectId: "quiz-app-536be",
+  storageBucket: "quiz-app-536be.firebasestorage.app",
+  messagingSenderId: "978649070586",
+  appId: "1:978649070586:web:98c250a037770fbaec4243",
+  measurementId: "G-SDQYT27WWN"
+};
+
+// Initialize Firebase
+var app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// ✅ 3. Your array of objects
+
+
+
+
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
 var questions = [
   {
     question: "HTML Stands for",
@@ -28,49 +53,54 @@ var questions = [
     option3: "label",
     corrAnswer: "id",
   },
-  {
-    question: "Any element assigned with id, can be get in css ",
-    option1: "by # tag",
-    option2: "by @ tag",
-    option3: "by & tag",
-    corrAnswer: "by # tag",
-  },
-  {
-    question: "CSS can be used with ______ methods ",
-    option1: "8",
-    option2: "3",
-    option3: "4",
-    corrAnswer: "3",
-  },
-  {
-    question: "In JS variable types are ____________ ",
-    option1: "6",
-    option2: "3",
-    option3: "8",
-    corrAnswer: "8",
-  },
-  {
-    question: "In array we can use key name and value ",
-    option1: "True",
-    option2: "False",
-    option3: "None of above",
-    corrAnswer: "False",
-  },
-  {
-    question: "toFixed() is used to define length of decimal ",
-    option1: "True",
-    option2: "False",
-    option3: "None of above",
-    corrAnswer: "True",
-  },
-  {
-    question: "push() method is used to add element in the start of array ",
-    option1: "True",
-    option2: "False",
-    option3: "None of above",
-    corrAnswer: "False",
-  },
+  // {
+  //   question: "Any element assigned with id, can be get in css ",
+  //   option1: "by # tag",
+  //   option2: "by @ tag",
+  //   option3: "by & tag",
+  //   corrAnswer: "by # tag",
+  // },
+  // {
+  //   question: "CSS can be used with ______ methods ",
+  //   option1: "8",
+  //   option2: "3",
+  //   option3: "4",
+  //   corrAnswer: "3",
+  // },
+  // {
+  //   question: "In JS variable types are ____________ ",
+  //   option1: "6",
+  //   option2: "3",
+  //   option3: "8",
+  //   corrAnswer: "8",
+  // },
+  // {
+  //   question: "In array we can use key name and value ",
+  //   option1: "True",
+  //   option2: "False",
+  //   option3: "None of above",
+  //   corrAnswer: "False",
+  // },
+  // {
+  //   question: "toFixed() is used to define length of decimal ",
+  //   option1: "True",
+  //   option2: "False",
+  //   option3: "None of above",
+  //   corrAnswer: "True",
+  // },
+  // {
+  //   question: "push() method is used to add element in the start of array ",
+  //   option1: "True",
+  //   option2: "False",
+  //   option3: "None of above",
+  //   corrAnswer: "False",
+  // },
 ];
+const usersRef = database.ref("questions");
+
+questions.forEach(questions => {
+  usersRef.push(questions);
+});
 
 var quesElement = document.getElementById("ques");
 var opt1 = document.getElementById("opt1");
@@ -78,7 +108,7 @@ var opt2 = document.getElementById("opt2");
 var opt3 = document.getElementById("opt3");
 var index = 0;
 var score = 0;
-
+// c
 function nextQues() {
   var nextBtn = document.getElementById("btn");
   var allOptions = document.getElementsByTagName("input");
@@ -100,7 +130,21 @@ function nextQues() {
   nextBtn.disabled = true;
   if (index > questions.length - 1) {
     var result = document.getElementById("result")
+    
+    
+    
+   var results =`RESULT <br><br><br> You scored  ${((score / questions.length) * 100).toFixed(2)} %. Keep it up!  `
+    firebase.database().ref("result").push(results)
+    .then(() => {
+    })
+    .catch((error) => {
+      console.error("Push failed:", error);
+    });
+   
     result.innerHTML =`RESULT <br><br><br> You scored  ${((score / questions.length) * 100).toFixed(2)} %. Keep it up!  `
+    
+    
+    
     var all = document.getElementById("all")
     all.innerHTML=""
   
